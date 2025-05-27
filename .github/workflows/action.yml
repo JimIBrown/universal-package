@@ -9,9 +9,6 @@ on:
       - release/*
       - support/*
       - hotfix/*
-    paths:
-     - src/**
-     - build/**
   pull_request:
   workflow_dispatch:
   

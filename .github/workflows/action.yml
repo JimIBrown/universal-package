@@ -23,11 +23,14 @@ jobs:
       NUGET_SOURCE_URL: 'https://nuget.pkg.github.com/${{github.REPOSITORY_OWNER}}/index.json'
 
     steps:
-    - uses: oras-project/setup-oras@v1
+
+    - name: Git checkout
+      uses: actions/checkout@v2
+    - name: Setup Oras
+      uses: oras-project/setup-oras@v1
 
     - name: oras
       run: |
-        dir
         echo ${{ secrets.GITHUB_TOKEN }} | oras login --username "${{ github.actor }}" --password-stdin ghcr.io
-        oras push ghcr.io/jimibrown/test:latest '../pkg/New Text Document.txt'
+        oras push ghcr.io/jimibrown/test:latest './pkg'
    

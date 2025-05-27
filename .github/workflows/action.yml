@@ -1,0 +1,35 @@
+name: dotnet-publish-build
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/*
+      - release/*
+      - support/*
+      - hotfix/*
+    paths:
+     - src/**
+     - build/**
+  pull_request:
+  workflow_dispatch:
+  
+jobs:
+  dotnet-publish-build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      NUGET_SOURCE_URL: 'https://nuget.pkg.github.com/${{github.REPOSITORY_OWNER}}/index.json'
+
+    steps:
+    - uses: oras-project/setup-oras@v1
+
+    - name: oras
+      run: |
+        oras login --username "${{ github.actor }}" --password "${{ secrets.GITHUB_TOKEN }}" ghcr.io
+        oras push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest ./pkg
+   

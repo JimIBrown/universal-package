@@ -28,5 +28,5 @@ jobs:
     - name: oras
       run: |
         echo ${{ secrets.GITHUB_TOKEN }} | oras login --username "${{ github.actor }}" --password-stdin ghcr.io
-        oras push ghcr.io/jimibrown/test:latest ./pkg
+        oras push ghcr.io/jimibrown/test:latest ./pkg/
    
